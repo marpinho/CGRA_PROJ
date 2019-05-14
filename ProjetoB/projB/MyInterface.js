@@ -15,6 +15,11 @@ class MyInterface extends CGFinterface {
         this.gui = new dat.GUI();
         
         var obj = this;
+        
+        // Interface elements 
+        this.gui.add(this.scene, 'selectedObject', this.scene.objectIDs).name('Selected Object');
+        this.gui.add(this.scene, 'scaleFactor', 0.1, 10.0).name('Scale');
+        
 
         this.initKeys();
 
