@@ -27,7 +27,7 @@ class MyScene extends CGFscene {
 
         //Initialize scene objects
         this.axis = new CGFaxis(this);
-        this.selectedObject = 0;
+        this.selectedObject = 1;
         this.skybox = new MyCubeMap(this);
 
 

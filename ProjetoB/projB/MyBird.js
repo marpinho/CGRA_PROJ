@@ -13,11 +13,14 @@ class MyBird extends CGFobject {
     initBuffers() {
         this.head = new MyUnitCubeQuad(this.scene);
         this.body = new MyUnitCubeQuad(this.scene);
+        this.eye = new MyCubeMap(this.scene);
+        this.beak = new MyPyramid(this.scene, 3, 3);
         this.position = [0, 5, 0];
         this.orientation = 45; //degrees with axis Oz
     }
 
     display() {
+        //corpo
         this.scene.pushMatrix();
         this.scene.translate(this.position[0], this.position[1], this.position[2]);
         this.scene.rotate(this.degToRad(this.orientation % 360),0,1,0);
@@ -25,6 +28,7 @@ class MyBird extends CGFobject {
         this.body.display();
         this.scene.popMatrix();
 
+        //cabeca
         this.scene.pushMatrix();
         this.scene.translate(this.position[0], this.position[1], this.position[2]);
         this.scene.rotate(this.degToRad(this.orientation % 360),0,1,0);
@@ -32,25 +36,27 @@ class MyBird extends CGFobject {
         this.scene.scale(1,1,1);
         this.body.display();
         this.scene.popMatrix();
+
+
     }
 
     move(dir){
-        if(dir > 0){
-            this.position[3] -= Math.cos(this.degToRad(this.orientation % 360));
-            this.position[0] += Math.sin(this.degToRad(this.orientation % 360));
+        if(dir < 0){
+            this.position[2] -= Math.cos(-this.degToRad(this.orientation % 360));
+            this.position[0] += Math.sin(-this.degToRad(this.orientation % 360));
         }
         else{
-            this.position[3] += Math.cos(this.degToRad(this.orientation % 360));
-            this.position[0] -= Math.sin(this.degToRad(this.orientation % 360));
+            this.position[2] += Math.cos(-this.degToRad(this.orientation % 360));
+            this.position[0] -= Math.sin(-this.degToRad(this.orientation % 360));
         }
     }
 
     turn(dir){
-        if(dir > 0){
-            this.orientation += 10;
+        if(dir < 0){
+            this.orientation += 13;
         }
         else{
-            this.orientation -= 10;
+            this.orientation -= 13;
         }
     }
 
