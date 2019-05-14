@@ -12,6 +12,7 @@ class MyCubeMap extends CGFobject {
         //create textures daytime
         this.location = "Text/";
         this.texturePack = "siege";
+
         this.topText = new CGFtexture(this.scene, this.location + this.texturePack + '_up.png');
         this.botText = new CGFtexture(this.scene, this.location + this.texturePack + '_dn.png');
         this.frontText = new CGFtexture(this.scene, this.location + this.texturePack + '_ft.png');
@@ -20,7 +21,7 @@ class MyCubeMap extends CGFobject {
         this.leftText = new CGFtexture(this.scene, this.location + this.texturePack + '_lf.png');
 
 
-        //create materials with textures night
+        //create materials with textures
         this.frontMaterial = new CGFappearance(this.scene);
         this.frontMaterial.setAmbient(0.1, 0.1, 0.1, 1);
         this.frontMaterial.setDiffuse(0.9, 0.9, 0.9, 1);
@@ -63,64 +64,11 @@ class MyCubeMap extends CGFobject {
         this.topMaterial.setShininess(10.0);
         this.topMaterial.setTexture(this.topText);
 
-
-
-        //create textures nighttime
-        this.texturePackN = "badomen";
-        this.topTextN = new CGFtexture(this.scene, this.location + this.texturePackN + '_up.png');
-        this.botTextN = new CGFtexture(this.scene, this.location + this.texturePackN + '_dn.png');
-        this.frontTextN = new CGFtexture(this.scene, this.location + this.texturePackN + '_ft.png');
-        this.backTextN = new CGFtexture(this.scene, this.location + this.texturePackN + '_bk.png');
-        this.rightTextN = new CGFtexture(this.scene, this.location + this.texturePackN + '_rt.png');
-        this.leftTextN = new CGFtexture(this.scene, this.location + this.texturePackN + '_lf.png');
-
-        //create materials with textures
-        this.frontMaterialN = new CGFappearance(this.scene);
-        this.frontMaterialN.setAmbient(0.1, 0.1, 0.1, 1);
-        this.frontMaterialN.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.frontMaterialN.setSpecular(0.1, 0.1, 0.1, 1);
-        this.frontMaterialN.setShininess(10.0);
-        this.frontMaterialN.setTexture(this.frontTextN);
-
-        this.leftMaterialN = new CGFappearance(this.scene);
-        this.leftMaterialN.setAmbient(0.1, 0.1, 0.1, 1);
-        this.leftMaterialN.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.leftMaterialN.setSpecular(0.1, 0.1, 0.1, 1);
-        this.leftMaterialN.setShininess(10.0);
-        this.leftMaterialN.setTexture(this.leftTextN);
-
-        this.rightMaterialN = new CGFappearance(this.scene);
-        this.rightMaterialN.setAmbient(0.1, 0.1, 0.1, 1);
-        this.rightMaterialN.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.rightMaterialN.setSpecular(0.1, 0.1, 0.1, 1);
-        this.rightMaterialN.setShininess(10.0);
-        this.rightMaterialN.setTexture(this.rightTextN);
-
-        this.backMaterialN = new CGFappearance(this.scene);
-        this.backMaterialN.setAmbient(0.1, 0.1, 0.1, 1);
-        this.backMaterialN.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.backMaterialN.setSpecular(0.1, 0.1, 0.1, 1);
-        this.backMaterialN.setShininess(10.0);
-        this.backMaterialN.setTexture(this.backTextN);
-
-        this.botMaterialN = new CGFappearance(this.scene);
-        this.botMaterialN.setAmbient(0.1, 0.1, 0.1, 1);
-        this.botMaterialN.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.botMaterialN.setSpecular(0.1, 0.1, 0.1, 1);
-        this.botMaterialN.setShininess(10.0);
-        this.botMaterialN.setTexture(this.botTextN);
-
-        this.topMaterialN = new CGFappearance(this.scene);
-        this.topMaterialN.setAmbient(0.1, 0.1, 0.1, 1);
-        this.topMaterialN.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.topMaterialN.setSpecular(0.1, 0.1, 0.1, 1);
-        this.topMaterialN.setShininess(10.0);
-        this.topMaterialN.setTexture(this.topTextN);
     }
 
-    display(time) {
+    display() {
 
-        this.time = time; // true if night
+        this.time = false; // true if night
 
         this.scene.pushMatrix();
 

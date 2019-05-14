@@ -11,6 +11,8 @@ class MyScene extends CGFscene {
         this.initCameras();
         this.initLights();
 
+        var fps = 20; //frame rate
+
         //Background color
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
@@ -19,13 +21,14 @@ class MyScene extends CGFscene {
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.depthFunc(this.gl.LEQUAL);
         this.enableTextures(true);
-        this.setUpdatePeriod(50);
+        this.setUpdatePeriod(1000/fps);
 
         //Initialize scene objects
         this.axis = new CGFaxis(this);
         this.plane = new Plane(this, 32);
 
         //Objects connected to MyInterface
+        this.skyBox = new MyCubeMap(this);
     }
     initLights() {
         this.lights[0].setPosition(15, 2, 5, 1);
@@ -42,9 +45,35 @@ class MyScene extends CGFscene {
         this.setSpecular(0.2, 0.4, 0.8, 1.0);
         this.setShininess(10.0);
     }
-    update(t){
 
+    update(t){
+        this.checkKeys();
     }
+
+    checkKeys() {
+        var text="Keys pressed: ";
+        var keysPressed=false;
+// Check for key codes e.g. in https://keycode.info/
+        if (this.gui.isKeyPressed("KeyW")) {
+            text+=" W ";
+            keysPressed=true;
+        }
+        if (this.gui.isKeyPressed("KeyS")) {
+            text+=" S ";
+            keysPressed=true;
+        }
+        if (this.gui.isKeyPressed("KeyA")) {
+            text+=" A ";
+            keysPressed=true;
+        }
+        if (this.gui.isKeyPressed("KeyD")) {
+            text+=" D ";
+            keysPressed=true;
+        }
+        if (keysPressed)
+            console.log(text);
+    }
+
 
     display() {
         // ---- BEGIN Background, camera and axis setup
@@ -63,12 +92,16 @@ class MyScene extends CGFscene {
         //Apply default appearance
         this.setDefaultAppearance();
 
-        // ---- BEGIN Primitive drawing section
+
         this.pushMatrix();
         this.rotate(-0.5*Math.PI, 1, 0, 0);
         this.scale(60, 60, 1);
         this.plane.display();
         this.popMatrix();
         // ---- END Primitive drawing section
+        // ---- BEGIN Primitive drawing section
+
+        //display skybox
+        this.skyBox.display();
     }
 }
