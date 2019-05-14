@@ -29,6 +29,7 @@ class MyScene extends CGFscene {
 
         //Objects connected to MyInterface
         this.skyBox = new MyCubeMap(this);
+        this.bird = new MyBird(this);
     }
     initLights() {
         this.lights[0].setPosition(15, 2, 5, 1);
@@ -57,18 +58,22 @@ class MyScene extends CGFscene {
         if (this.gui.isKeyPressed("KeyW")) {
             text+=" W ";
             keysPressed=true;
+            this.bird.move(1);
         }
         if (this.gui.isKeyPressed("KeyS")) {
             text+=" S ";
             keysPressed=true;
+            this.bird.move(-1);
         }
         if (this.gui.isKeyPressed("KeyA")) {
             text+=" A ";
             keysPressed=true;
+            this.bird.turn(-1);
         }
         if (this.gui.isKeyPressed("KeyD")) {
             text+=" D ";
             keysPressed=true;
+            this.bird.turn(1);
         }
         if (keysPressed)
             console.log(text);
@@ -98,8 +103,13 @@ class MyScene extends CGFscene {
         this.scale(60, 60, 1);
         this.plane.display();
         this.popMatrix();
-        // ---- END Primitive drawing section
+
         // ---- BEGIN Primitive drawing section
+
+        this.bird.display();
+
+
+        // ---- END Primitive drawing section
 
         //display skybox
         this.skyBox.display();
