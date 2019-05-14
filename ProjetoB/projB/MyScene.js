@@ -23,12 +23,26 @@ class MyScene extends CGFscene {
         this.enableTextures(true);
         this.setUpdatePeriod(1000/fps);
 
+        
+
         //Initialize scene objects
         this.axis = new CGFaxis(this);
-        this.plane = new Plane(this, 32);
+        this.selectedObject = 0;
+        this.skybox = new MyCubeMap(this);
+
 
         //Objects connected to MyInterface
-        this.skyBox = new MyCubeMap(this);
+        this.house = new MyHouse(this);
+        this.bird = new MyHouse(this);
+        this.finalScene = new MyFinalScene(this);
+
+
+        //objects vector
+        this.objects = [ this.house, this.bird, this.finalScene, ];
+        this.objectIDs = {'House' : 0, 'Bird': 1, 'FinalScene' : 2};
+
+        //other variables
+        this.scaleFactor = 1.0;
     }
     initLights() {
         this.lights[0].setPosition(15, 2, 5, 1);
@@ -37,7 +51,7 @@ class MyScene extends CGFscene {
         this.lights[0].update();
     }
     initCameras() {
-        this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(45, 45, 45), vec3.fromValues(0, 0, 0));
+        this.camera = new CGFcamera(0.5, 0.1, 500, vec3.fromValues(4, 18, 60), vec3.fromValues(0, 0, 0));
     }
     setDefaultAppearance() {
         this.setAmbient(0.2, 0.4, 0.8, 1.0);
@@ -92,16 +106,19 @@ class MyScene extends CGFscene {
         //Apply default appearance
         this.setDefaultAppearance();
 
-
-        this.pushMatrix();
-        this.rotate(-0.5*Math.PI, 1, 0, 0);
-        this.scale(60, 60, 1);
-        this.plane.display();
-        this.popMatrix();
-        // ---- END Primitive drawing section
         // ---- BEGIN Primitive drawing section
 
+
+        this.pushMatrix();
+        this.scale(this.scaleFactor,this.scaleFactor,this.scaleFactor);
+        this.objects[this.selectedObject].display();
+        this.popMatrix();
+
         //display skybox
-        this.skyBox.display();
+        //this.skyBox.display();
+
+        // ---- END Primitive drawing section
+
+        
     }
 }
