@@ -1,9 +1,13 @@
 class MyBird extends CGFobject {
-    constructor(scene) {
+    constructor(scene, fps) {
         super(scene);
         this.scene = scene;
+        this.fps = fps;
         this.initBuffers();
     }
+
+    maxSpeed = 4;
+    acceleration = 0.4;
 
 
     degToRad(deg){
@@ -17,14 +21,25 @@ class MyBird extends CGFobject {
         this.wingTip = new MyTriangle(this.scene);
 
         this.position = [0, 3, 0];
-        this.lastPosition = this.position;
         this.orientation = 0; //degrees with axis Oz
+
+        this.speed = 0;
+        this.lastIterationTime = (new Date()).getTime() % 1000;
+    }
+
+    getYPos(){
+        return this.position[1] - 0.75;
+    }
+
+    setYPos(pos){
+        this.position[1] = pos + 0.75;
     }
 
     display() {
 
         //animacao cima/baixo
-        var t = parseInt("" + ((new Date()).getTime() % 1000) / 100);
+        var ms = (new Date()).getTime() % 1000;
+        var t = parseInt("" + (ms) / 100);
 
         var oscilacao;
 
@@ -35,11 +50,19 @@ class MyBird extends CGFobject {
             oscilacao = -(10 - t) / 10.0 + 0.25;
         }
 
-        //animacao bater asas
-        var speed = Math.abs(this.position[0] - this.lastPosition[0]) + Math.abs(this.position[2] - this.lastPosition[2]);
-        var ang = oscilacao * 10 * (2 * speed + 1) / 2;
 
-        //console.log(speed);
+        if(ms < this.lastIterationTime){
+            ms += 1000;
+        }
+
+        var elapsedTime = ms - this.lastIterationTime;
+
+        this.lastIterationTime = ms % 1000;
+
+        this.move(elapsedTime);
+
+        //animacao bater asas
+        var ang = -oscilacao * 10 * ((2 * this.speed) / 2 + 0.3);
 
 
         //corpo
@@ -150,17 +173,26 @@ class MyBird extends CGFobject {
         this.scene.popMatrix();
     }
 
-    move(dir){
+    move(time){
 
-        this.lastPosition = this.position;
+        this.position[2] -= Math.cos(-this.degToRad(this.orientation % 360)) * (this.speed * time / (1000/this.fps));
+        this.position[0] += Math.sin(-this.degToRad(this.orientation % 360)) * (this.speed * time / (1000/this.fps));
 
+    }
+
+
+    updateSpeed(dir){
         if(dir < 0){
-            this.position[2] -= Math.cos(-this.degToRad(this.orientation % 360));
-            this.position[0] += Math.sin(-this.degToRad(this.orientation % 360));
+            this.speed += this.acceleration;
+            if(this.speed > this.maxSpeed){
+                this.speed = this.maxSpeed;
+            }
         }
         else{
-            this.position[2] += Math.cos(-this.degToRad(this.orientation % 360));
-            this.position[0] -= Math.sin(-this.degToRad(this.orientation % 360));
+            this.speed -= this.acceleration + 0.2;
+            if(this.speed < -this.maxSpeed){
+                this.speed = -this.maxSpeed;
+            }
         }
 
     }

@@ -11,7 +11,7 @@ class MyScene extends CGFscene {
         this.initCameras();
         this.initLights();
 
-        var fps = 20; //frame rate
+        var fps = 40; //frame rate
 
         //Background color
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -33,8 +33,9 @@ class MyScene extends CGFscene {
 
         //Objects connected to MyInterface
         this.house = new MyHouse(this);
-        this.bird = new MyBird(this);
+        this.bird = new MyBird(this, fps);
         this.finalScene = new MyFinalScene(this);
+        this.nest = new MyNest(this);
 
 
         //objects vector
@@ -43,6 +44,7 @@ class MyScene extends CGFscene {
 
         //other variables
         this.scaleFactor = 1.0;
+        this.grabState = 0; //0-> normal  1-> holding stick
     }
 
     initLights() {
@@ -65,6 +67,14 @@ class MyScene extends CGFscene {
         this.checkKeys();
     }
 
+    grabDrop(){
+        var pos = this.bird.getYPos();
+
+        this.bird.setYPos(pos-1);
+
+
+    }
+
     checkKeys() {
         var text="Keys pressed: ";
         var keysPressed=false;
@@ -72,12 +82,12 @@ class MyScene extends CGFscene {
         if (this.gui.isKeyPressed("KeyW")) {
             text+=" W ";
             keysPressed=true;
-            this.bird.move(1);
+            this.bird.updateSpeed(1);
         }
         if (this.gui.isKeyPressed("KeyS")) {
             text+=" S ";
             keysPressed=true;
-            this.bird.move(-1);
+            this.bird.updateSpeed(-1);
         }
         if (this.gui.isKeyPressed("KeyA")) {
             text+=" A ";
@@ -89,6 +99,12 @@ class MyScene extends CGFscene {
             keysPressed=true;
             this.bird.turn(1);
         }
+        if (this.gui.isKeyPressed("KeyP")) {
+            text+=" P ";
+            keysPressed=true;
+            this.grabDrop();
+        }
+
         if (keysPressed)
             console.log(text);
     }
