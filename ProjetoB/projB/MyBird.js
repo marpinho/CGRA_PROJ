@@ -6,8 +6,8 @@ class MyBird extends CGFobject {
         this.initBuffers();
     }
 
-    maxSpeed = 4;
-    acceleration = 0.4;
+    h = 3;
+    state = -this.h;
 
 
     degToRad(deg){
@@ -15,8 +15,10 @@ class MyBird extends CGFobject {
     }
 
     initBuffers() {
+        this.maxSpeed = 35/this.fps;
+        this.acceleration = 4/this.fps;
         this.square = new MyUnitCubeQuad(this.scene);
-        this.beak = new MyPyramid(this.scene, 3, 3);
+        this.beak = new MyPyramid(this.scene, this.h, 3);
         this.wing = new MyQuad(this.scene);
         this.wingTip = new MyTriangle(this.scene);
 
@@ -35,6 +37,10 @@ class MyBird extends CGFobject {
         this.position[1] = pos + 0.75;
     }
 
+    moveVerticaly(){
+        this.state = this.h;
+    }
+
     display() {
 
         //animacao cima/baixo
@@ -50,6 +56,13 @@ class MyBird extends CGFobject {
             oscilacao = -(10 - t) / 10.0 + 0.25;
         }
 
+        if(this.state > -this.h) {
+            var s = Math.sign(this.state);
+            if(s == 0) s = -1;
+            this.position[1] -= s / 20;
+            this.state -= 1 / 20;
+        }
+
 
         if(ms < this.lastIterationTime){
             ms += 1000;
@@ -62,7 +75,7 @@ class MyBird extends CGFobject {
         this.move(elapsedTime);
 
         //animacao bater asas
-        var ang = -oscilacao * 10 * ((2 * this.speed) / 2 + 0.3);
+        var ang = -oscilacao * 10 * ((2 * this.speed/(this.fps/10)) / 2 + 0.3);
 
 
         //corpo
@@ -189,7 +202,7 @@ class MyBird extends CGFobject {
             }
         }
         else{
-            this.speed -= this.acceleration + 0.2;
+            this.speed -= this.acceleration;
             if(this.speed < -this.maxSpeed){
                 this.speed = -this.maxSpeed;
             }
@@ -198,12 +211,7 @@ class MyBird extends CGFobject {
     }
 
     turn(dir){
-        if(dir < 0){
-            this.orientation += 13;
-        }
-        else{
-            this.orientation -= 13;
-        }
+        this.orientation += 400/this.fps * Math.sign(-dir);
     }
 
 }

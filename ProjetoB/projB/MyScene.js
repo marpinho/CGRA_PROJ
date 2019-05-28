@@ -11,7 +11,7 @@ class MyScene extends CGFscene {
         this.initCameras();
         this.initLights();
 
-        var fps = 40; //frame rate
+        var fps = 50; //frame rate
 
         //Background color
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -68,10 +68,7 @@ class MyScene extends CGFscene {
     }
 
     grabDrop(){
-        var pos = this.bird.getYPos();
-
-        this.bird.setYPos(pos-1);
-
+        this.bird.moveVerticaly();
 
     }
 
