@@ -38,7 +38,7 @@ class MyBird extends CGFobject {
     }
 
     onFloor(){
-        console.log("test");
+        //console.log("test");
         this.scene.grabDrop();
     }
 
