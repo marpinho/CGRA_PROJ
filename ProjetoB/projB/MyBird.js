@@ -16,7 +16,7 @@ class MyBird extends CGFobject {
 
     initBuffers() {
         this.maxSpeed = 35/this.fps;
-        this.acceleration = 4/this.fps;
+        this.acceleration = 2/this.fps;
         this.square = new MyUnitCubeQuad(this.scene);
         this.beak = new MyPyramid(this.scene, this.h, 3);
         this.wing = new MyQuad(this.scene);
@@ -29,16 +29,17 @@ class MyBird extends CGFobject {
         this.lastIterationTime = (new Date()).getTime() % 1000;
     }
 
-    getYPos(){
-        return this.position[1] - 0.75;
-    }
-
-    setYPos(pos){
-        this.position[1] = pos + 0.75;
+    getPos(){
+        return this.position;
     }
 
     moveVerticaly(){
         this.state = this.h;
+    }
+
+    onFloor(){
+        console.log("test");
+        this.scene.grabDrop();
     }
 
     display() {
@@ -61,6 +62,8 @@ class MyBird extends CGFobject {
             if(s == 0) s = -1;
             this.position[1] -= s / 20;
             this.state -= 1 / 20;
+
+            if(Math.abs(this.state) < 0.03) this.onFloor();
         }
 
 

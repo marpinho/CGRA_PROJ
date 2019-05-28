@@ -36,6 +36,7 @@ class MyScene extends CGFscene {
         this.bird = new MyBird(this, fps);
         this.finalScene = new MyFinalScene(this);
         this.nest = new MyNest(this);
+        this.stick = new MyTreeBranch(this, 0, 0);
 
 
         //objects vector
@@ -67,9 +68,15 @@ class MyScene extends CGFscene {
         this.checkKeys();
     }
 
-    grabDrop(){
+    goDown(){
         this.bird.moveVerticaly();
+    }
 
+    grabDrop(x, z){
+        var margem = 1.5;
+        if(Math.abs(this.stick.getPos()[0] - this.bird.getPos()[0]) < margem && Math.abs(this.stick.getPos()[2] - this.bird.getPos()[2]) < margem){
+            console.log("grabed");
+        }
     }
 
     checkKeys() {
@@ -99,7 +106,7 @@ class MyScene extends CGFscene {
         if (this.gui.isKeyPressed("KeyP")) {
             text+=" P ";
             keysPressed=true;
-            this.grabDrop();
+            this.goDown();
         }
 
         if (keysPressed)
@@ -130,10 +137,11 @@ class MyScene extends CGFscene {
         this.pushMatrix();
         this.scale(this.scaleFactor,this.scaleFactor,this.scaleFactor);
         this.objects[this.selectedObject].display();
+        this.stick.display();
+
         this.popMatrix();
 
         // ---- BEGIN Primitive drawing section
-
         this.bird.display();
 
 
