@@ -35,7 +35,7 @@ class MyScene extends CGFscene {
         this.house = new MyHouse(this);
         this.bird = new MyBird(this, fps);
         this.finalScene = new MyFinalScene(this);
-        this.nest = new MyNest(this);
+        this.nest = new MyNest(this, 2, 3);
         this.stick = new MyTreeBranch(this, 0, 0);
 
 
