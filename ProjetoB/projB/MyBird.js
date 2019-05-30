@@ -21,6 +21,7 @@ class MyBird extends CGFobject {
         this.beak = new MyPyramid(this.scene, this.h, 3);
         this.wing = new MyQuad(this.scene);
         this.wingTip = new MyTriangle(this.scene);
+        this.stick;
 
         this.position = [0, 3, 0];
         this.orientation = 0; //degrees with axis Oz
@@ -42,6 +43,15 @@ class MyBird extends CGFobject {
         this.scene.grabDrop();
     }
 
+    grabedStick(stick) {
+        this.stick = stick;
+    }
+    dropedStick(){
+        var temp = this.stick;
+        this.stick = null;
+        return temp;
+    }
+
     display() {
 
         //animacao cima/baixo
@@ -56,6 +66,8 @@ class MyBird extends CGFobject {
         else{
             oscilacao = -(10 - t) / 10.0 + 0.25;
         }
+
+        oscilacao *= 1.5;
 
         if(this.state > -this.h) {
             var s = Math.sign(this.state);
@@ -80,6 +92,8 @@ class MyBird extends CGFobject {
         //animacao bater asas
         var ang = -oscilacao * 10 * ((2 * this.speed/(this.fps/10)) / 2 + 0.3);
 
+
+        this.position[1] = this.position[1] < 0 ? 0 : this.position[1];
 
         //corpo
         this.scene.pushMatrix();
@@ -187,6 +201,17 @@ class MyBird extends CGFobject {
         this.scene.scale(1.5, 1, 0.5);
         this.wingTip.display();
         this.scene.popMatrix();
+
+        //pau
+        if(this.stick != null){
+            this.scene.pushMatrix();
+            this.scene.translate(this.position[0], this.position[1] + oscilacao, this.position[2]);
+            this.scene.rotate(this.degToRad(this.orientation % 360),0,1,0);
+            this.scene.translate(-1, 0.6, 1.8);
+            this.scene.rotate(Math.PI/2, 0, 1, 0);
+            this.stick.display();
+            this.scene.popMatrix();
+        }
     }
 
     move(time){

@@ -35,7 +35,7 @@ class MyScene extends CGFscene {
         this.house = new MyHouse(this);
         this.bird = new MyBird(this, fps);
         this.finalScene = new MyFinalScene(this);
-        this.nest = new MyNest(this, 2, 3);
+        this.nest = new MyNest(this, 0, 0);
         this.stick = new MyTreeBranch(this, 0, 0);
 
 
@@ -73,17 +73,20 @@ class MyScene extends CGFscene {
     }
 
     grabDrop(x, z){
-        var margem = 1.7;
+        var margem = 2;
 
         if(this.grabState == 0) {
             if (Math.abs(this.stick.getPos()[0] - this.bird.getPos()[0]) < margem && Math.abs(this.stick.getPos()[2] - this.bird.getPos()[2]) < margem) {
                 console.log("grabed");
+                this.bird.grabedStick(this.stick);
+                this.stick = null;
                 this.grabState = 1;
             }
         }
         else{
-            if (Math.abs(this.nest.getPos()[0] - this.nest.getPos()[0]) < margem && Math.abs(this.nest.getPos()[2] - this.nest.getPos()[2]) < margem) {
+            if (Math.abs(this.nest.getPos()[0] - this.bird.getPos()[0]) < margem && Math.abs(this.nest.getPos()[2] - this.bird.getPos()[2]) < margem) {
                 console.log("droped");
+                this.stick = this.bird.dropedStick();
                 this.grabState = 0;
             }
         }
@@ -147,7 +150,10 @@ class MyScene extends CGFscene {
         this.pushMatrix();
         this.scale(this.scaleFactor,this.scaleFactor,this.scaleFactor);
         this.objects[this.selectedObject].display();
-        this.stick.display();
+
+        if(this.stick != null) {
+            this.stick.display();
+        }
 
         this.popMatrix();
 
