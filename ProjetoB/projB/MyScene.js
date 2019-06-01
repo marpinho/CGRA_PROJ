@@ -16,7 +16,8 @@ class MyScene extends CGFscene {
         //Background color
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
-        this.gl.clearDepth(100.0);
+        this.gl.clearDepth(10000.0);
+        this.gl.clearColor(1, 1, 1, 1.0);
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.depthFunc(this.gl.LEQUAL);
@@ -45,7 +46,7 @@ class MyScene extends CGFscene {
 
         //other variables
         this.scaleFactor = 1.0;
-        this.grabState = 0; //0-> normal  1-> holding stick
+        this.grabState = 0; //0-> normal  1-> holding branch
     }
 
     initLights() {
@@ -157,7 +158,6 @@ class MyScene extends CGFscene {
 
         this.popMatrix();
 
-        // ---- BEGIN Primitive drawing section
         this.pushMatrix();
         this.bird.display();
         this.popMatrix();

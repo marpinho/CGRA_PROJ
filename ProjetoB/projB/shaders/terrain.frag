@@ -8,6 +8,6 @@ uniform float timeFactor;
 uniform sampler2D texTerrain;
 
 void main() {
-	vec4 color = texture2D(texTerrain, vTextureCoord + vec2(0.006, 0.006));	
+	vec4 color = texture2D(texTerrain, vTextureCoord );
 	gl_FragColor = color;
 }
