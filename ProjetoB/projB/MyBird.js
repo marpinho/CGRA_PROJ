@@ -86,6 +86,7 @@ class MyBird extends CGFobject {
             var s = Math.sign(this.state);
             if(s == 0) s = -1;
             this.position[1] -= s / 20;
+            if(this.position[1] + oscilacao < 0.75) this.position[1] = 0.75 - oscilacao;
             this.state -= 1 / 20;
 
             if(Math.abs(this.state) < 0.03) this.onFloor();
@@ -232,10 +233,8 @@ class MyBird extends CGFobject {
     }
 
     move(time){
-
         this.position[2] -= Math.cos(-this.degToRad(this.orientation % 360)) * (this.speed * time / (1000/this.fps));
         this.position[0] += Math.sin(-this.degToRad(this.orientation % 360)) * (this.speed * time / (1000/this.fps));
-
     }
 
 
