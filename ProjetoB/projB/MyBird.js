@@ -28,6 +28,19 @@ class MyBird extends CGFobject {
 
         this.speed = 0;
         this.lastIterationTime = (new Date()).getTime() % 1000;
+
+        //Textures 
+        this.penasTex = new CGFtexture(this.scene, 'images/penas6.jpg'); 
+        this.penasMaterial = new CGFappearance(this.scene); 
+        this.penasMaterial.setTexture(this.penasTex); 
+       
+        this.bicoTex = new CGFtexture(this.scene, 'images/bico1.jpg');
+        this.bicoMaterial = new CGFappearance(this.scene); 
+        this.bicoMaterial.setTexture(this.bicoTex); 
+        
+        this.olhoTex = new CGFtexture(this.scene, 'images/olho1.jpg'); 
+        this.olhoMaterial = new CGFappearance(this.scene); 
+        this.olhoMaterial.setTexture(this.olhoTex);
     }
 
     getPos(){
@@ -94,7 +107,8 @@ class MyBird extends CGFobject {
 
 
         this.position[1] = this.position[1] < 0 ? 0 : this.position[1];
-
+        
+        this.penasMaterial.apply();
         //corpo
         this.scene.pushMatrix();
         this.scene.translate(this.position[0], this.position[1] + oscilacao, this.position[2]);
@@ -112,6 +126,7 @@ class MyBird extends CGFobject {
         this.square.display();
         this.scene.popMatrix();
 
+        this.bicoMaterial.apply();
         //bico
         this.scene.pushMatrix();
         this.scene.translate(this.position[0], this.position[1] + oscilacao, this.position[2]);
@@ -123,6 +138,7 @@ class MyBird extends CGFobject {
         this.beak.display();
         this.scene.popMatrix();
 
+        this.olhoMaterial.apply();
         //olho esquerdo
         this.scene.pushMatrix();
         this.scene.translate(this.position[0], this.position[1] + oscilacao, this.position[2]);
@@ -140,7 +156,8 @@ class MyBird extends CGFobject {
         this.scene.scale(0.1, 0.1, 0.1);
         this.square.display();
         this.scene.popMatrix();
-
+        
+        this.penasMaterial.apply();
         //asa esquerda
         this.scene.pushMatrix();
         this.scene.translate(this.position[0], this.position[1] + oscilacao, this.position[2]);
