@@ -61,8 +61,11 @@ class MyCylinder extends CGFobject {
 
         for(var i = 0; i < this.slices ; i++){
             this.indices.push(i*2, i*2 +2 , i*2 + 3);
+            this.indices.push(i*2 + 3, i*2 +2, i*2);
+
             this.indices.push(i*2, i*2 +3 , i*2 + 1 );
-        } 
+            this.indices.push(i*2 + 1, i*2 +3 , i*2 );
+        }
         //draw last slice
         //this.indices.push((this.slices - 1)*2, 0, 1);
         //this.indices.push((this.slices - 1)*2, 1 , (this.slices - 1)*2 + 1 );

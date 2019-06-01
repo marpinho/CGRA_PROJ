@@ -58,10 +58,18 @@ class MyBird extends CGFobject {
 
     grabedStick(stick) {
         this.stick = stick;
+
+        this.stick.setPos(null, null, null);
     }
     dropedStick(){
+        var x = this.position[0] + 1.5 * Math.sin(this.degToRad(this.orientation));
+        var z = this.position[2] + 1.5 * Math.cos(this.degToRad(this.orientation));
+        
+        this.stick.setPos(x, z, this.orientation%360);
+
         var temp = this.stick;
         this.stick = null;
+
         return temp;
     }
 
