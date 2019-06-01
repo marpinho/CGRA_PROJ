@@ -43,6 +43,12 @@ class MyBird extends CGFobject {
         this.olhoMaterial.setTexture(this.olhoTex);
     }
 
+    resetPos(){
+        this.speed = 0;
+        this.orientation = 0;
+        this.position = [0, 3, 0];
+    }
+
     getPos(){
         return this.position;
     }
@@ -64,7 +70,7 @@ class MyBird extends CGFobject {
     dropedStick(){
         var x = this.position[0] + 1.5 * Math.sin(this.degToRad(this.orientation));
         var z = this.position[2] + 1.5 * Math.cos(this.degToRad(this.orientation));
-        
+
         this.stick.setPos(x, z, this.orientation%360);
 
         var temp = this.stick;

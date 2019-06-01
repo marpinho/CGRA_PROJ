@@ -2,6 +2,7 @@
 * MyInterface
 * @constructor
 */
+
 class MyInterface extends CGFinterface {
     constructor() {
         super();
@@ -19,7 +20,8 @@ class MyInterface extends CGFinterface {
         // Interface elements 
         this.gui.add(this.scene, 'selectedObject', this.scene.objectIDs).name('Selected Object');
         this.gui.add(this.scene, 'scaleFactor', 0.1, 10.0).name('Scale');
-        
+
+        this.gui.add(this.scene, 'resetBP').name('Reset Bird Position');
 
         this.initKeys();
 
