@@ -37,7 +37,7 @@ class MyTreeBranch extends CGFobject {
             this.scene.translate(0, 0, -0.75);
         }
         this.scene.rotate(Math.PI/2, 1, 0, 0);
-        this.scene.scale(0.1, 1.5, 0.1);
+        this.scene.scale(0.1, 1, 0.1);
 
         this.ramo.display();
 

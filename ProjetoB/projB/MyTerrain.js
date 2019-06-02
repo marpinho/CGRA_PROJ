@@ -26,17 +26,19 @@ class MyTerrain  extends CGFobject{
         this.texTerrainColors.bind(2);
 
 
+        this.scene.pushMatrix();
+
         this.scene.setActiveShader(this.testShaders);
 
-        this.scene.pushMatrix();
         this.scene.rotate(0.5*Math.PI, 0, 1, 0);
         this.scene.translate(0, -6.5, 0);
         this.scene.rotate(-0.5*Math.PI, 1, 0, 0);
         this.scene.scale(60, 60, 20);
         this.plane.display();
-        this.scene.popMatrix();
 
         this.scene.setActiveShader(this.scene.defaultShader);
+
+        this.scene.popMatrix();
     }
 
 }

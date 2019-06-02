@@ -24,9 +24,9 @@ class MyScene extends CGFscene {
         this.setUpdatePeriod(1000/fps);
 
         //other variables
-        this.scaleFactor = 1.0;
-        this.grabState = 0; //0-> normal  1-> holding branch
-        this.birdScale = 1
+        this.scaleFactor = 1;
+        this.grabState = -1; //-1-> normal  else-> index of branch being held
+        this.birdScale = 1;
         this.birdAcceleration = 2;
 
         this.axiom = "X"; // "X"; //
@@ -53,9 +53,17 @@ class MyScene extends CGFscene {
         this.terrain = new MyTerrain(this);
         this.bird = new MyBird(this, fps);
         this.nest = new MyNest(this, 3, 7);
-        this.stick = new MyTreeBranch(this, 0, 0);  
         this.LSPlant = new MyLSPlant(this);
         this.lightning = new MyLightning(this);
+
+        this.nBranches = 4;
+        this.branches = [];
+        var maxD = 11;
+        for(var i = 0; i < this.nBranches; i++){
+            var x = Math.floor(Math.random() * maxD);
+            var z = Math.floor(Math.random() * maxD);
+            this.branches.push(new MyTreeBranch(this, x, z));
+        }
 
         // do initial plant generation
         this.LSPlant.generate(
@@ -111,21 +119,24 @@ class MyScene extends CGFscene {
     grabDrop(x, z){
         var margem = 6;
 
-        if(this.grabState == 0) {
-            var dist = Math.pow(Math.abs(this.stick.getPos()[0] - this.bird.getPos()[0]), 2) + Math.pow(Math.abs(this.stick.getPos()[2] - this.bird.getPos()[2]), 2);
-            if ( dist < margem * margem ) {
-                console.log("grabed");
-                this.bird.grabedStick(this.stick);
-                this.stick = null;
-                this.grabState = 1;
+        if(this.grabState === -1) {
+            for(var i = 0; i < this.nBranches; i++){
+                var dist = Math.pow(Math.abs(this.branches[i].getPos()[0] - this.bird.getPos()[0]), 2) + Math.pow(Math.abs(this.branches[i].getPos()[2] - this.bird.getPos()[2]), 2);
+                if ( dist < margem * margem ) {
+                    console.log("grabed");
+                    this.bird.grabedStick(this.branches[i]);
+                    this.branches[i] = null;
+                    this.grabState = i;
+                    break;
+                }
             }
         }
         else{
             var dist = Math.pow(Math.abs(this.nest.getPos()[0] - this.bird.getPos()[0]), 2) + Math.pow(Math.abs(this.nest.getPos()[2] - this.bird.getPos()[2]), 2);
             if ( dist < margem * margem ) {
                 console.log("droped");
-                this.stick = this.bird.dropedStick();
-                this.grabState = 0;
+                this.branches[this.grabState] = this.bird.dropedStick();
+                this.grabState = -1;
             }
             console.log("" + Math.sqrt(dist));
         }
@@ -166,7 +177,7 @@ class MyScene extends CGFscene {
             this.lightning.display();
         }
         if (this.gui.isKeyPressed("KeyR")) {
-            text+=" L ";
+            text+=" R ";
             keysPressed=true;
             this.bird.resetPos();
         }
@@ -229,7 +240,7 @@ class MyScene extends CGFscene {
         this.pushMatrix();
         this.bird.setScale(this.birdScale);
         this.bird.setAcceleration(this.birdAcceleration);
-        this.scale(0.2,0.2,0.2);
+        //this.scale(0.2,0.2,0.2);
         this.bird.display();
         this.popMatrix();
 
@@ -245,11 +256,13 @@ class MyScene extends CGFscene {
         this.popMatrix();
 
         //STICK
-        if(this.stick != null) {
-            this.pushMatrix();
-            this.scale(0.5,0.5,0.5);
-            this.stick.display();
-            this.popMatrix();
+        for(var i = 0; i < this.nBranches; i++) {
+            if (this.branches[i] != null) {
+                this.pushMatrix();
+                //this.scale(0.5, 0.5, 0.5);
+                this.branches[i].display();
+                this.popMatrix();
+            }
         }
       
 
