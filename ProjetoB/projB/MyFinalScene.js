@@ -9,11 +9,10 @@ class MyFinalScene extends CGFobject{
         this.house = new MyHouse(this.scene);
         this.skybox = new MyCubeMap(this.scene);
         this.terrain = new MyTerrain(this.scene);
+        this.bird = new MyBird(this.scene);
     }
 
     display() {
-        
-    
 
         //HOUSE 
         this.scene.pushMatrix();
@@ -29,6 +28,11 @@ class MyFinalScene extends CGFobject{
         this.scene.pushMatrix();
         this.terrain.display();
         this.scene.popMatrix();
+
+        //BIRD
+        this.scene.pushMatrix();
+        this.scene.popMatrix();
+
 
     }
 }

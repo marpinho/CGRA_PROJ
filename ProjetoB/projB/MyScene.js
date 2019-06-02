@@ -24,11 +24,10 @@ class MyScene extends CGFscene {
         this.enableTextures(true);
         this.setUpdatePeriod(1000/fps);
 
-        
-
+    
         //Initialize scene objects
         this.axis = new CGFaxis(this);
-        this.selectedObject = 1;
+        this.selectedObject = 2;
         this.skybox = new MyCubeMap(this);
 
 
@@ -56,7 +55,7 @@ class MyScene extends CGFscene {
         this.lights[0].update();
     }
     initCameras() {
-        this.camera = new CGFcamera(0.5, 0.1, 500, vec3.fromValues(30, 100, 60), vec3.fromValues(0, 0, 0));
+        this.camera = new CGFcamera(0.5, 0.1, 500, vec3.fromValues(2, 50, 2), vec3.fromValues(0, 0, 0));
     }
     setDefaultAppearance() {
         this.setAmbient(0.2, 0.4, 0.8, 1.0);

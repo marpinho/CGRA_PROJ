@@ -3,8 +3,6 @@ precision highp float;
 #endif
 
 varying vec2 vTextureCoord;
-uniform float timeFactor;
-
 uniform sampler2D texTerrain;
 
 void main() {

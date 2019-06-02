@@ -13,9 +13,9 @@ uniform float normScale;
 uniform sampler2D texTerrainMap;
 
 void main() {
-
-	vec4 color = texture2D(texTerrainMap, aTextureCoord );
-	vec3 offset = vec3(0, 0, 0.5*color.b);
+	
+	vec4 color = texture2D(texTerrainMap, aTextureCoord );	
+	vec3 offset = vec3(0, 0, color.b);
 		
 	gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition + offset, 1.0);
 	vTextureCoord = aTextureCoord;

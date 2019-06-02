@@ -9,26 +9,26 @@ class MyTerrain  extends CGFobject{
     initBuffers() {
         this.plane = new Plane(this.scene,32);
 
-        this.texture = new CGFtexture(this.scene, "images/terrain.jpg");
-        this.textureMap = new CGFtexture(this.scene, "images/heightmap.jpg");
+        this.texTerrain = new CGFtexture(this.scene, "images/terrain.jpg");
+        this.texTerrainMap = new CGFtexture(this.scene, "images/heightmap.jpg");
 
         this.testShaders = new CGFshader(this.scene.gl, "shaders/terrain.vert", "shaders/terrain.frag");
 
-        this.testShaders.setUniformsValues({ texture: 0 });
-        this.testShaders.setUniformsValues({ textureMap: 1 });
+        this.testShaders.setUniformsValues({ texTerrain: 0 });
+        this.testShaders.setUniformsValues({ texTerrainMap: 1 });
 
     }
     display() {
-        this.texture.bind(0);
-        this.textureMap.bind(1);
+        this.texTerrain.bind(0);
+        this.texTerrainMap.bind(1);
 
         this.scene.setActiveShader(this.testShaders);
-        this.scene.translate(0, -8, 0);
 
         this.scene.pushMatrix();
-
+        this.scene.rotate(0.5*Math.PI, 0, 1, 0);
+        this.scene.translate(0, -6.5, 0);
         this.scene.rotate(-0.5*Math.PI, 1, 0, 0);
-        this.scene.scale(250, 250, 25);
+        this.scene.scale(60, 60, 20);
         this.plane.display();
 
         this.scene.popMatrix();
