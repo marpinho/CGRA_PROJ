@@ -281,7 +281,7 @@ class MyBird extends CGFobject {
     }
 
     turn(dir){
-        this.orientation += 400/this.fps * Math.sign(-dir);
+        this.orientation += ((this.acceleration * this.fps ) * 100 + 200) / this.fps * Math.sign(-dir);
     }
 
 }
