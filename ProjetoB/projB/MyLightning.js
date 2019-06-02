@@ -27,7 +27,7 @@ class MyLightning extends MyLSystem {
     update(){
 
     }
-    
+
     startAnimation(t) {
 
     }

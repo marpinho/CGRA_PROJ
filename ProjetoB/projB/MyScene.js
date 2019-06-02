@@ -200,10 +200,14 @@ class MyScene extends CGFscene {
         this.pushMatrix();
         this.scale(this.scaleFactor,this.scaleFactor,this.scaleFactor);
 
+        //Geral scale
+        this.pushMatrix();
+        this.scale(2,2,2);
+
         //TREES
         this.pushMatrix();
-        this.translate(-13,0,-7);
-        this.scale(0.2,0.2,0.2);
+        this.translate(-12,0,-7);
+        this.scale(0.4,0.4,0.4);
         for(var i = 0; i<4; i++){
             this.pushMatrix();
 
@@ -223,36 +227,14 @@ class MyScene extends CGFscene {
             this.popMatrix();
         }
         this.popMatrix();
-
-
-        //BIRD
-        this.pushMatrix();
-        this.bird.setScale(this.birdScale);
-        this.bird.setAcceleration(this.birdAcceleration);
-        this.scale(0.2,0.2,0.2);
-        this.bird.display();
-        this.popMatrix();
+        
 
         //HOUSE
         this.pushMatrix();
-        this.translate(5,0,0);
+        this.translate(5,0,-5);
+        this.scale(3,3,3);
         this.house.display();
         this.popMatrix();
-
-        //NEST
-        this.pushMatrix();
-        this.nest.display();
-        this.popMatrix();
-
-        //STICK
-        if(this.stick != null) {
-            this.pushMatrix();
-            this.scale(0.5,0.5,0.5);
-            this.stick.display();
-            this.popMatrix();
-        }
-      
-
 
         // LIGHTNING
         //this.pushMatrix();
@@ -266,6 +248,30 @@ class MyScene extends CGFscene {
         //TERRAIN
         this.pushMatrix();
         this.terrain.display();
+        this.popMatrix();
+
+        //final gral scene scale
+        this.popMatrix();
+
+
+        //BIRD
+        this.pushMatrix();
+        this.bird.setScale(this.birdScale);
+        this.bird.setAcceleration(this.birdAcceleration);
+        this.bird.display();
+        this.popMatrix();
+
+         //STICK
+        if(this.stick != null) {
+            this.pushMatrix();
+            this.scale(0.5,0.5,0.5);
+            this.stick.display();
+            this.popMatrix();
+        }
+
+        //NEST
+        this.pushMatrix();
+        this.nest.display();
         this.popMatrix();
 
         //CUBE MAP
