@@ -200,24 +200,7 @@ class MyScene extends CGFscene {
         this.pushMatrix();
         this.scale(this.scaleFactor,this.scaleFactor,this.scaleFactor);
 
-          //HOUSE 
-        this.pushMatrix();
-        this.translate(5,0,0);
-        this.house.display();
-        this.popMatrix();
-          
-          //CUBE MAP
-        this.pushMatrix();
-        this.skybox.display();
-        this.popMatrix();
-  
-          //TERRAIN
-        this.pushMatrix();
-        this.terrain.display();
-        this.popMatrix();
-
-      
-          //TREES
+        //TREES
         this.pushMatrix();
         this.translate(-13,0,-7);
         this.scale(0.2,0.2,0.2);
@@ -241,36 +224,57 @@ class MyScene extends CGFscene {
         }
         this.popMatrix();
 
-          // LIGHTNING
-        //this.pushMatrix();
-        //this.translate(-10,10,-9);
-        //this.rotate(0.2 *Math.PI, 0, 1, 1);
-        //this.rotate(Math.PI, 0, 0, 1);
-        //this.lightning.display();
-        //this.popMatrix();
-  
-          //BIRD
+
+        //BIRD
         this.pushMatrix();
         this.bird.setScale(this.birdScale);
         this.bird.setAcceleration(this.birdAcceleration);
         this.scale(0.2,0.2,0.2);
         this.bird.display();
         this.popMatrix();
-  
-          //NEST
+
+        //HOUSE
+        this.pushMatrix();
+        this.translate(5,0,0);
+        this.house.display();
+        this.popMatrix();
+
+        //NEST
         this.pushMatrix();
         this.nest.display();
         this.popMatrix();
-  
-          //STICK
+
+        //STICK
         if(this.stick != null) {
             this.pushMatrix();
             this.scale(0.5,0.5,0.5);
             this.stick.display();
             this.popMatrix();
         }
+      
+
+
+        // LIGHTNING
+        //this.pushMatrix();
+        //this.translate(-10,10,-9);
+        //this.rotate(0.2 *Math.PI, 0, 1, 1);
+        //this.rotate(Math.PI, 0, 0, 1);
+        //this.lightning.display();
+        //this.popMatrix();
+
+
+        //TERRAIN
+        this.pushMatrix();
+        this.terrain.display();
+        this.popMatrix();
+
+        //CUBE MAP
+        this.pushMatrix();
+        this.skybox.display();
+        this.popMatrix();
 
         this.popMatrix();
-        // ---- END Primitive drawing section 
+
+        // ---- END Primitive drawing section
     }
 }
