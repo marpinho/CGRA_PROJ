@@ -9,7 +9,6 @@ class MyBird extends CGFobject {
     h = 3;
     state = -this.h;
 
-
     degToRad(deg){
         return deg * Math.PI / 180.0;
     }
@@ -124,7 +123,7 @@ class MyBird extends CGFobject {
         this.move(elapsedTime);
 
         //animacao bater asas
-        var ang = -oscilacao * 5 * ((8 * Math.abs(this.speed) * 10 / (this.fps * 2) ) + 0.5);
+        var ang = -oscilacao * 5 * (this.acceleration * this.fps) * ((5 * Math.abs(this.speed) * 10 / (this.fps * 2) ) + 0.5);
 
         oscilacao *= 1.5;
 
