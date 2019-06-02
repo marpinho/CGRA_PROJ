@@ -260,8 +260,8 @@ class MyScene extends CGFscene {
             this.popMatrix();
         }
         this.popMatrix();
+        
         //*******************************
-
         //Geral scale
         this.pushMatrix();
         this.scale(0.4, 0.4, 0.4);
