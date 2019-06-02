@@ -11,12 +11,12 @@ class MyScene extends CGFscene {
         this.initCameras();
         this.initLights();
 
-        var fps = 50; //frame rate
+        var fps = 100; //frame rate
 
         //Background color
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
-        this.gl.clearDepth(10000.0);
+        this.gl.clearDepth(1000.0);
         this.gl.clearColor(1, 1, 1, 1.0);
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.enable(this.gl.CULL_FACE);
@@ -35,7 +35,7 @@ class MyScene extends CGFscene {
         this.house = new MyHouse(this);
         this.bird = new MyBird(this, fps);
         this.finalScene = new MyFinalScene(this);
-        this.nest = new MyNest(this, 0, 0);
+        this.nest = new MyNest(this, 3, 7);
         this.stick = new MyTreeBranch(this, 0, 0);
 
 
@@ -46,6 +46,7 @@ class MyScene extends CGFscene {
         //other variables
         this.scaleFactor = 1.0;
         this.grabState = 0; //0-> normal  1-> holding branch
+        this.resetBP = false;
     }
 
     initLights() {
@@ -144,6 +145,11 @@ class MyScene extends CGFscene {
         //Apply default appearance
         this.setDefaultAppearance();
 
+        if(this.resetBP){
+            this.resetBP = false;
+            this.bird.resetPos();
+        }
+
         // ---- BEGIN Primitive drawing section
 
 
@@ -159,6 +165,7 @@ class MyScene extends CGFscene {
 
         this.pushMatrix();
         this.bird.display();
+        this.nest.display();
         this.popMatrix();
 
 

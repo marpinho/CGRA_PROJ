@@ -9,6 +9,23 @@ class MyNest extends CGFobject {
     getPos(){ return this.pos; }
 
     initBuffers() {
+        this.cylinder = new MyCylinder(this.scene, 8);
 
+        //Texture
+        this.nestTex = new CGFtexture(this.scene, 'images/nest.jpg');
+        this.nestMaterial = new CGFappearance(this.scene);
+        this.nestMaterial.setTexture(this.nestTex);
+    }
+
+    display() {
+        this.nestMaterial.apply();
+
+        this.scene.pushMatrix();
+
+        this.scene.translate(this.pos[0], this.pos[1], this.pos[2]);
+        this.scene.scale(1.5, 0.8, 1.5);
+        this.cylinder.display();
+
+        this.scene.popMatrix();
     }
 }
