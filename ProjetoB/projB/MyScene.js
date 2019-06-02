@@ -10,6 +10,8 @@ class MyScene extends CGFscene {
         super.init(application);
         this.initCameras();
         this.initLights();
+        var fps = 100; //frame rate
+
 
         //Background color
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -25,13 +27,13 @@ class MyScene extends CGFscene {
         this.scaleFactor = 1.0;
         this.grabState = 0; //0-> normal  1-> holding branch
         this.resetBP = false;
-        var fps = 100; //frame rate
 
         this.axiom = "X"; // "X"; //
         this.ruleF = "FF"; // "FF"; //
         this.angle = 30.0;
+        
+        //Trees
         this.iterations = 4;
-
         this.rule_X = [];
         this.rule_X.push("F[-X][X]F[-X]+X");
         this.rule_X.push("F[-X][x]+X");
@@ -43,7 +45,6 @@ class MyScene extends CGFscene {
         this.rule_X.push("F[^X]&X");
         this.rule_X.push("F[&X]^X");
 
-
         //Initialize scene objects
         this.axis = new CGFaxis(this);
         this.skybox = new MyCubeMap(this);
@@ -53,23 +54,34 @@ class MyScene extends CGFscene {
         this.nest = new MyNest(this, 3, 7);
         this.stick = new MyTreeBranch(this, 0, 0);  
         this.LSPlant = new MyLSPlant(this);
-
-
-        this.doGenerate = function () {
-            this.LSPlant.generate(
-                this.axiom,
-                {
-                    "F": [ this.ruleF ],
-                    "X":  this.rule_X,
-                },
-                this.angle,
-                this.iterations,
-                this.scaleFactor
-            );
-        }
+        this.lightning = new MyLightning(this);
 
         // do initial plant generation
-        this.doGenerate();
+        this.LSPlant.generate(
+            this.axiom,
+            {
+                "F": [ this.ruleF ],
+                "X":  this.rule_X,
+            },
+            this.angle,
+            this.iterations,
+            this.scaleFactor
+        );
+
+        this.ruleX = "F[-X][X]F[-X]+FX";
+
+        // do initial ligthning generation
+        this.lightning.generate(
+            this.axiom,
+            {
+                "F": [ this.ruleF ],
+                "X":  [this.ruleX],
+            },
+            25.0,
+            3,
+            0.5
+        );
+        
     }
 
     initLights() {
@@ -87,9 +99,8 @@ class MyScene extends CGFscene {
         this.setSpecular(0.2, 0.4, 0.8, 1.0);
         this.setShininess(10.0);
     }
-
     update(t){
-        this.checkKeys();
+        this.checkKeys(t);
     }
 
     goDown(){
@@ -116,7 +127,7 @@ class MyScene extends CGFscene {
         }
     }
 
-    checkKeys() {
+    checkKeys(t) {
         var text="Keys pressed: ";
         var keysPressed=false;
 // Check for key codes e.g. in https://keycode.info/
@@ -145,11 +156,17 @@ class MyScene extends CGFscene {
             keysPressed=true;
             this.goDown();
         }
+        if (this.gui.isKeyPressed("KeyL")) {
+            text+=" L ";
+            keysPressed=true;     
+            this.lightning.display();
+        }
 
         if (keysPressed)
             console.log(text);
     }
-
+    
+    
 
     display() {
         // ---- BEGIN Background, camera and axis setup
@@ -197,7 +214,7 @@ class MyScene extends CGFscene {
       
           //TREES
         this.pushMatrix();
-        this.translate(-12,0,-7);
+        this.translate(-13,0,-7);
         this.scale(0.2,0.2,0.2);
         for(var i = 0; i<4; i++){
             this.pushMatrix();
@@ -219,6 +236,13 @@ class MyScene extends CGFscene {
         }
         this.popMatrix();
 
+          // LIGHTNING
+        //this.pushMatrix();
+        //this.translate(-10,10,-9);
+        //this.rotate(0.2 *Math.PI, 0, 1, 1);
+        //this.rotate(Math.PI, 0, 0, 1);
+        //this.lightning.display();
+        //this.popMatrix();
   
           //BIRD
         this.pushMatrix();
