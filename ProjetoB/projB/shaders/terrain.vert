@@ -14,6 +14,7 @@ uniform sampler2D texTerrainMap;
 
 void main() {
 	
+
 	vec4 color = texture2D(texTerrainMap, aTextureCoord );	
 	vec3 offset = vec3(0, 0, color.b);
 		

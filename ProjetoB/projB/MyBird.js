@@ -251,7 +251,6 @@ class MyBird extends CGFobject {
         this.position[0] += Math.sin(-this.degToRad(this.orientation % 360)) * (this.speed * time / (1000/this.fps));
     }
 
-
     updateSpeed(dir){
         if(dir < 0){
             this.speed += this.acceleration;
@@ -265,11 +264,9 @@ class MyBird extends CGFobject {
                 this.speed = -this.maxSpeed;
             }
         }
-
     }
 
     turn(dir){
         this.orientation += 400/this.fps * Math.sign(-dir);
     }
-
 }

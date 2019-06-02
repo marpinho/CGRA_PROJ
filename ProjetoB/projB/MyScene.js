@@ -11,11 +11,8 @@ class MyScene extends CGFscene {
         this.initCameras();
         this.initLights();
 
-        var fps = 100; //frame rate
-
         //Background color
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
-
         this.gl.clearDepth(1000.0);
         this.gl.clearColor(1, 1, 1, 1.0);
         this.gl.enable(this.gl.DEPTH_TEST);
@@ -24,29 +21,55 @@ class MyScene extends CGFscene {
         this.enableTextures(true);
         this.setUpdatePeriod(1000/fps);
 
-    
-        //Initialize scene objects
-        this.axis = new CGFaxis(this);
-        this.selectedObject = 2;
-        this.skybox = new MyCubeMap(this);
-
-
-        //Objects connected to MyInterface
-        this.house = new MyHouse(this);
-        this.bird = new MyBird(this, fps);
-        this.finalScene = new MyFinalScene(this);
-        this.nest = new MyNest(this, 3, 7);
-        this.stick = new MyTreeBranch(this, 0, 0);
-
-
-        //objects vector
-        this.objects = [ this.house, this.bird, this.finalScene, ];
-        this.objectIDs = {'House' : 0, 'Bird': 1, 'FinalScene' : 2};
-
         //other variables
         this.scaleFactor = 1.0;
         this.grabState = 0; //0-> normal  1-> holding branch
         this.resetBP = false;
+        var fps = 100; //frame rate
+
+        this.axiom = "X"; // "X"; //
+        this.ruleF = "FF"; // "FF"; //
+        this.angle = 30.0;
+        this.iterations = 4;
+
+        this.rule_X = [];
+        this.rule_X.push("F[-X][X]F[-X]+X");
+        this.rule_X.push("F[-X][x]+X");
+        this.rule_X.push("F[+X]-X");
+        this.rule_X.push("F[/X][X]F[\\X]+X");
+        this.rule_X.push("F[\X][X]/X");
+        this.rule_X.push("F[/X]\X");
+        this.rule_X.push("F[^X][X]F[&X]^X");
+        this.rule_X.push("F[^X]&X");
+        this.rule_X.push("F[&X]^X");
+
+
+        //Initialize scene objects
+        this.axis = new CGFaxis(this);
+        this.skybox = new MyCubeMap(this);
+        this.house = new MyHouse(this);
+        this.terrain = new MyTerrain(this);
+        this.bird = new MyBird(this, fps);
+        this.nest = new MyNest(this, 3, 7);
+        this.stick = new MyTreeBranch(this, 0, 0);  
+        this.LSPlant = new MyLSPlant(this);
+
+
+        this.doGenerate = function () {
+            this.LSPlant.generate(
+                this.axiom,
+                {
+                    "F": [ this.ruleF ],
+                    "X":  this.rule_X,
+                },
+                this.angle,
+                this.iterations,
+                this.scaleFactor
+            );
+        }
+
+        // do initial plant generation
+        this.doGenerate();
     }
 
     initLights() {
@@ -144,7 +167,7 @@ class MyScene extends CGFscene {
 
         //Apply default appearance
         this.setDefaultAppearance();
-
+        
         if(this.resetBP){
             this.resetBP = false;
             this.bird.resetPos();
@@ -152,30 +175,73 @@ class MyScene extends CGFscene {
 
         // ---- BEGIN Primitive drawing section
 
-
         this.pushMatrix();
         this.scale(this.scaleFactor,this.scaleFactor,this.scaleFactor);
-        this.objects[this.selectedObject].display();
 
+          //HOUSE 
+        this.pushMatrix();
+        this.translate(5,0,0);
+        this.house.display();
+        this.popMatrix();
+          
+          //CUBE MAP
+        this.pushMatrix();
+        this.skybox.display();
+        this.popMatrix();
+  
+          //TERRAIN
+        this.pushMatrix();
+        this.terrain.display();
+        this.popMatrix();
+
+      
+          //TREES
+        this.pushMatrix();
+        this.translate(-12,0,-7);
+        this.scale(0.2,0.2,0.2);
+        for(var i = 0; i<4; i++){
+            this.pushMatrix();
+
+            this.translate(i*6,0,0);
+            this.pushMatrix();
+            this.rotate(-0.3*i*Math.PI, 0, 1, 0);
+            this.LSPlant.display();
+            this.popMatrix();
+
+            for(var j = 1; j<3; j++){
+                this.translate(0,0,9+i*5);
+                this.pushMatrix();
+                this.rotate(-0.3*i*Math.PI, 0, 1, 0);
+                this.LSPlant.display();
+                this.popMatrix();
+            }
+            this.popMatrix();
+        }
+        this.popMatrix();
+
+  
+          //BIRD
+        this.pushMatrix();
+        this.scale(0.2,0.2,0.2);
+        this.bird.display();
+        this.popMatrix();
+  
+          //NEST
+        this.pushMatrix();
+        this.scale(0.5,0.5,0.5)
+        this.translate(7,0,2);
+        this.nest.display();
+        this.popMatrix();
+  
+          //STICK
         if(this.stick != null) {
+            this.pushMatrix();
+            this.scale(0.5,0.5,0.5);
             this.stick.display();
+            this.popMatrix();
         }
 
         this.popMatrix();
-
-        this.pushMatrix();
-        this.bird.display();
-        this.nest.display();
-        this.popMatrix();
-
-
-        // ---- END Primitive drawing section
-
-        //display skybox
-        //this.skyBox.display();
-
-        // ---- END Primitive drawing section
-
-        
+        // ---- END Primitive drawing section 
     }
 }
