@@ -60,8 +60,8 @@ class MyScene extends CGFscene {
         this.branches = [];
         var maxD = 11;
         for(var i = 0; i < this.nBranches; i++){
-            var x = Math.floor(Math.random() * maxD);
-            var z = Math.floor(Math.random() * maxD);
+            var x = Math.floor(Math.random() * maxD * 2) - maxD;
+            var z = Math.floor(Math.random() * maxD * 2) - maxD;
             this.branches.push(new MyTreeBranch(this, x, z));
         }
 
