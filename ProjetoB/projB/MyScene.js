@@ -220,9 +220,7 @@ class MyScene extends CGFscene {
             this.moveCamera();
         }
 
-
         // ---- BEGIN Primitive drawing section
-
         this.pushMatrix();
         this.scale(this.scaleFactor,this.scaleFactor,this.scaleFactor);
 
@@ -237,8 +235,8 @@ class MyScene extends CGFscene {
         this.scale(0.4,0.4,0.4);
         for(var i = 0; i<4; i++){
             this.pushMatrix();
-
             this.translate(i*6,0,0);
+
             this.pushMatrix();
             this.rotate(-0.3*i*Math.PI, 0, 1, 0);
             this.LSPlant.display();
@@ -261,23 +259,11 @@ class MyScene extends CGFscene {
         this.scale(3,3,3);
         this.house.display();
         this.popMatrix();
-
-    
-        // LIGHTNING
-        if (this.displayLightning) {
-          this.pushMatrix();
-          this.translate(-10,15,-9);
-          this.rotate(0.2 *Math.PI, 0, 1, 1);
-          this.rotate(Math.PI, 0, 0, 1);
-          this.lightning.display();
-          this.popMatrix();
-        }
         
         //TERRAIN
         this.pushMatrix();
         this.terrain.display();
         this.popMatrix();
-
 
         //Geral scale
         this.pushMatrix();
@@ -304,9 +290,19 @@ class MyScene extends CGFscene {
                 this.popMatrix();
             }
         }
-
         //geral scale
         this.popMatrix();
+
+        // LIGHTNING
+        if (this.displayLightning) {
+            this.pushMatrix();
+            this.scale(2,2,2);
+            this.translate(-5,8,-5);
+            this.rotate(0.2 *Math.PI, 0, 1, 1);
+            this.rotate(Math.PI, 0, 0, 1);
+            this.lightning.display();
+            this.popMatrix();
+        }
 
         this.popMatrix();
 

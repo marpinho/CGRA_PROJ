@@ -10,11 +10,16 @@ class MyLightning extends MyLSystem {
         //init Texture
         this.whiteTex = new CGFtexture(this.scene, 'images/blue.png');
         this.ligthMaterial = new CGFappearance(this.scene);
+        this.ligthMaterial.setAmbient(0.1, 0.1, 0.1, 1);
+        this.ligthMaterial.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.ligthMaterial.setSpecular(0.1, 0.1, 0.1, 1);
+        this.ligthMaterial.setShininess(10.0);
         this.ligthMaterial.setTexture(this.whiteTex);
 
         this.depth = 0;
         this.time = 0;
     }
+
 
     initGrammar(){
         this.grammar = {

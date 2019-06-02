@@ -14,6 +14,10 @@ class MyNest extends CGFobject {
         //Texture
         this.nestTex = new CGFtexture(this.scene, 'images/nest.jpg');
         this.nestMaterial = new CGFappearance(this.scene);
+        this.nestMaterial.setAmbient(0.1, 0.1, 0.1, 1);
+        this.nestMaterial.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.nestMaterial.setSpecular(0.1, 0.1, 0.1, 1);
+        this.nestMaterial.setShininess(10.0);
         this.nestMaterial.setTexture(this.nestTex);
     }
 
