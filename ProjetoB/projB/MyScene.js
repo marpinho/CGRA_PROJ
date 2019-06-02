@@ -115,11 +115,12 @@ class MyScene extends CGFscene {
             var dist = Math.pow(Math.abs(this.stick.getPos()[0] - this.bird.getPos()[0]), 2) + Math.pow(Math.abs(this.stick.getPos()[2] - this.bird.getPos()[2]), 2);
             if ( dist < margem * margem ) {
                 console.log("grabed");
-                this.bird.grabedStick(this.stick);
-                this.stick = null;
-                this.grabState = 1;
+                    this.bird.grabedStick(this.branches[i]);
+                    this.branches[i] = null;
+                    this.grabState = i;
+                    break;
+                }
             }
-        }
         else{
             var dist = Math.pow(Math.abs(this.nest.getPos()[0] - this.bird.getPos()[0]), 2) + Math.pow(Math.abs(this.nest.getPos()[2] - this.bird.getPos()[2]), 2);
             if ( dist < margem * margem ) {
