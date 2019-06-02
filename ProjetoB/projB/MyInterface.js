@@ -21,7 +21,8 @@ class MyInterface extends CGFinterface {
         //this.gui.add(this.scene, 'selectedObject', this.scene.objectIDs).name('Selected Object');
         this.gui.add(this.scene, 'scaleFactor', 0.1, 10.0).name('Scale');
 
-        this.gui.add(this.scene, 'resetBP').name('Reset Bird Position');
+        this.gui.add(this.scene, 'birdScale', 0.5, 3).name('Bird Scale');
+        this.gui.add(this.scene, 'birdAcceleration', 0.5, 3).name('Bird Acceleration');
 
         this.initKeys();
 

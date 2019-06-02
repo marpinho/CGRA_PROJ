@@ -23,7 +23,7 @@ class MyNest extends CGFobject {
         this.scene.pushMatrix();
 
         this.scene.translate(this.pos[0], this.pos[1], this.pos[2]);
-        this.scene.scale(1.5, 0.8, 1.5);
+        this.scene.scale(0.6, 0.3, 0.6);
         this.cylinder.display();
 
         this.scene.popMatrix();

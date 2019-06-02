@@ -10,7 +10,7 @@ class MyScene extends CGFscene {
         super.init(application);
         this.initCameras();
         this.initLights();
-        var fps = 100; //frame rate
+        var fps = 60; //frame rate
 
 
         //Background color
@@ -26,7 +26,8 @@ class MyScene extends CGFscene {
         //other variables
         this.scaleFactor = 1.0;
         this.grabState = 0; //0-> normal  1-> holding branch
-        this.resetBP = false;
+        this.birdScale = 1
+        this.birdAcceleration = 2;
 
         this.axiom = "X"; // "X"; //
         this.ruleF = "FF"; // "FF"; //
@@ -108,10 +109,11 @@ class MyScene extends CGFscene {
     }
 
     grabDrop(x, z){
-        var margem = 2;
+        var margem = 6;
 
         if(this.grabState == 0) {
-            if (Math.abs(this.stick.getPos()[0] - this.bird.getPos()[0]) < margem && Math.abs(this.stick.getPos()[2] - this.bird.getPos()[2]) < margem) {
+            var dist = Math.pow(Math.abs(this.stick.getPos()[0] - this.bird.getPos()[0]), 2) + Math.pow(Math.abs(this.stick.getPos()[2] - this.bird.getPos()[2]), 2);
+            if ( dist < margem * margem ) {
                 console.log("grabed");
                 this.bird.grabedStick(this.stick);
                 this.stick = null;
@@ -119,11 +121,13 @@ class MyScene extends CGFscene {
             }
         }
         else{
-            if (Math.abs(this.nest.getPos()[0] - this.bird.getPos()[0]) < margem && Math.abs(this.nest.getPos()[2] - this.bird.getPos()[2]) < margem) {
+            var dist = Math.pow(Math.abs(this.nest.getPos()[0] - this.bird.getPos()[0]), 2) + Math.pow(Math.abs(this.nest.getPos()[2] - this.bird.getPos()[2]), 2);
+            if ( dist < margem * margem ) {
                 console.log("droped");
                 this.stick = this.bird.dropedStick();
                 this.grabState = 0;
             }
+            console.log("" + Math.sqrt(dist));
         }
     }
 
@@ -161,6 +165,11 @@ class MyScene extends CGFscene {
             keysPressed=true;     
             this.lightning.display();
         }
+        if (this.gui.isKeyPressed("KeyR")) {
+            text+=" L ";
+            keysPressed=true;
+            this.bird.resetPos();
+        }
 
         if (keysPressed)
             console.log(text);
@@ -184,11 +193,7 @@ class MyScene extends CGFscene {
 
         //Apply default appearance
         this.setDefaultAppearance();
-        
-        if(this.resetBP){
-            this.resetBP = false;
-            this.bird.resetPos();
-        }
+
 
         // ---- BEGIN Primitive drawing section
 
@@ -246,14 +251,14 @@ class MyScene extends CGFscene {
   
           //BIRD
         this.pushMatrix();
+        this.bird.setScale(this.birdScale);
+        this.bird.setAcceleration(this.birdAcceleration);
         this.scale(0.2,0.2,0.2);
         this.bird.display();
         this.popMatrix();
   
           //NEST
         this.pushMatrix();
-        this.scale(0.5,0.5,0.5)
-        this.translate(7,0,2);
         this.nest.display();
         this.popMatrix();
   

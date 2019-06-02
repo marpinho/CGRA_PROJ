@@ -9,6 +9,11 @@ class MyTreeBranch extends CGFobject {
     initBuffers() {
         this.ramo = new MyCylinder(this.scene, 6);
         this.orientation = 0;
+
+        //Texture
+        this.nestTex = new CGFtexture(this.scene, 'images/nest.jpg');
+        this.nestMaterial = new CGFappearance(this.scene);
+        this.nestMaterial.setTexture(this.nestTex);
     }
 
     getPos(){ return this.pos; }
@@ -21,15 +26,18 @@ class MyTreeBranch extends CGFobject {
     }
 
     display() {
+
+        this.nestMaterial.apply();
+
         this.scene.pushMatrix();
 
         if(this.pos[0] != null && this.pos[2] != null && this.orientation != null) {
             this.scene.translate(this.pos[0], this.pos[1], this.pos[2]);
             this.scene.rotate(this.degToRad(this.orientation % 360 + 90 ), 0, 1, 0);
-            this.scene.translate(0, 0, -1);
+            this.scene.translate(0, 0, -0.75);
         }
         this.scene.rotate(Math.PI/2, 1, 0, 0);
-        this.scene.scale(0.15, 2, 0.15);
+        this.scene.scale(0.1, 1.5, 0.1);
 
         this.ramo.display();
 

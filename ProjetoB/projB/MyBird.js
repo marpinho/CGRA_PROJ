@@ -41,7 +41,15 @@ class MyBird extends CGFobject {
         this.olhoTex = new CGFtexture(this.scene, 'images/olho1.jpg'); 
         this.olhoMaterial = new CGFappearance(this.scene); 
         this.olhoMaterial.setTexture(this.olhoTex);
+
+        this.scale = 1;
     }
+
+    setAcceleration(a){
+        this.acceleration = a/this.fps;
+    }
+
+    setScale(s){this.scale = s;}
 
     resetPos(){
         this.speed = 0;
@@ -94,9 +102,8 @@ class MyBird extends CGFobject {
             oscilacao = -(10 - t) / 10.0 + 0.25;
         }
 
-        oscilacao *= 1.5;
-
         if(this.state > -this.h) {
+
             var s = Math.sign(this.state);
             if(s == 0) s = -1;
             this.position[1] -= s / 20;
@@ -105,12 +112,11 @@ class MyBird extends CGFobject {
 
             if(Math.abs(this.state) < 0.03) this.onFloor();
         }
-
-
         if(ms < this.lastIterationTime){
+
+
             ms += 1000;
         }
-
         var elapsedTime = ms - this.lastIterationTime;
 
         this.lastIterationTime = ms % 1000;
@@ -118,11 +124,16 @@ class MyBird extends CGFobject {
         this.move(elapsedTime);
 
         //animacao bater asas
-        var ang = -oscilacao * 10 * ((2 * this.speed/(this.fps/10)) / 2 + 0.3);
+        var ang = -oscilacao * 5 * ((8 * Math.abs(this.speed) * 10 / (this.fps * 2) ) + 0.5);
+
+        oscilacao *= 1.5;
 
 
         this.position[1] = this.position[1] < 0 ? 0 : this.position[1];
-        
+
+        this.scene.pushMatrix();
+        this.scene.scale(this.scale, this.scale, this.scale);
+
         this.penasMaterial.apply();
         //corpo
         this.scene.pushMatrix();
@@ -239,11 +250,13 @@ class MyBird extends CGFobject {
             this.scene.pushMatrix();
             this.scene.translate(this.position[0], this.position[1] + oscilacao, this.position[2]);
             this.scene.rotate(this.degToRad(this.orientation % 360),0,1,0);
-            this.scene.translate(-1, 0.6, 1.8);
+            this.scene.translate(-0.75, 0.8, 1.8);
             this.scene.rotate(Math.PI/2, 0, 1, 0);
             this.stick.display();
             this.scene.popMatrix();
         }
+
+        this.scene.popMatrix();
     }
 
     move(time){
