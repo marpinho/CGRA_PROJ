@@ -26,7 +26,7 @@ class MyScene extends CGFscene {
         //other variables
         this.scaleFactor = 1;
         this.grabState = -1; //-1-> normal  else-> index of branch being held
-        this.birdScale = 0.5;
+        this.birdScale = 1;
         this.birdAcceleration = 2;
 
         this.axiom = "X"; // "X"; //
@@ -130,7 +130,10 @@ class MyScene extends CGFscene {
 
         if(this.grabState === -1) {
             for(var i = 0; i < this.nBranches; i++){
+                if(this.branches[i] == null) continue;
+
                 dist = Math.pow(Math.abs(this.branches[i].getPos()[0] - this.bird.getPos()[0]), 2) + Math.pow(Math.abs(this.branches[i].getPos()[2] - this.bird.getPos()[2]), 2);
+
                 if ( dist < margem * margem ) {
                     console.log("grabed");
                     this.bird.grabedStick(this.branches[i]);
@@ -139,12 +142,22 @@ class MyScene extends CGFscene {
                     break;
                 }
             }
+
+            if(this.grabState === -1){
+                var temp = this.nest.pickupBranch(this.bird.getPos()[0], this.bird.getPos()[2], margem);
+                if(temp != null){
+                    this.bird.grabedStick(temp);
+                    this.grabState = -2;
+                }
+            }
         }
         else{
             dist = Math.pow(Math.abs(this.nest.getPos()[0] - this.bird.getPos()[0]), 2) + Math.pow(Math.abs(this.nest.getPos()[2] - this.bird.getPos()[2]), 2);
             if ( dist < margem * margem ) {
                 console.log("droped");
-                this.branches[this.grabState] = this.bird.dropedStick();
+
+                this.nest.addBranch(this.bird.dropedStick());
+
                 this.grabState = -1;
             }
             //console.log("" + Math.sqrt(dist));
@@ -224,11 +237,6 @@ class MyScene extends CGFscene {
         this.pushMatrix();
         this.scale(this.scaleFactor,this.scaleFactor,this.scaleFactor);
 
-        //CUBE MAP
-        this.pushMatrix();
-        this.skybox.display();
-        this.popMatrix();
-
         //TREES
         this.pushMatrix();
         this.translate(-12,0,-7);
@@ -253,6 +261,36 @@ class MyScene extends CGFscene {
         }
         this.popMatrix();
 
+        //*******************************
+        //Geral scale
+        this.pushMatrix();
+        this.scale(0.4, 0.4, 0.4);
+        this.scale(this.birdScale,this.birdScale,this.birdScale);
+
+        //BIRD
+        this.pushMatrix();
+        this.bird.setAcceleration(this.birdAcceleration);
+        this.bird.display();
+        this.popMatrix();
+
+        //NEST
+        this.pushMatrix();
+        this.nest.display();
+        this.popMatrix();
+
+        //STICK
+        for(var i = 0; i < this.nBranches; i++) {
+            if (this.branches[i] != null) {
+                this.pushMatrix();
+                this.branches[i].display();
+                this.popMatrix();
+            }
+        }
+
+        //geral scale
+        this.popMatrix();
+        //****************************
+
         //HOUSE
         this.pushMatrix();
         this.translate(5,0,-5);
@@ -274,34 +312,9 @@ class MyScene extends CGFscene {
         this.terrain.display();
         this.popMatrix();
 
-
-        //Geral scale
+        //CUBE MAP
         this.pushMatrix();
-        this.scale(this.birdScale,this.birdScale,this.birdScale);
-
-        //BIRD
-        this.pushMatrix();
-        this.bird.setScale(1);
-        this.bird.setAcceleration(this.birdAcceleration);
-        this.bird.display();
-        this.popMatrix();
-
-        //NEST
-        this.pushMatrix();
-        this.nest.display();
-        this.popMatrix();
-
-        //STICK
-        for(var i = 0; i < this.nBranches; i++) {
-            if (this.branches[i] != null) {
-                this.pushMatrix();
-                //this.scale(0.5, 0.5, 0.5);
-                this.branches[i].display();
-                this.popMatrix();
-            }
-        }
-
-        //geral scale
+        this.skybox.display();
         this.popMatrix();
 
         this.popMatrix();

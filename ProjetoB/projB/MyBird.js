@@ -48,8 +48,6 @@ class MyBird extends CGFobject {
         this.acceleration = a/this.fps;
     }
 
-    setScale(s){this.scale = s;}
-
     resetPos(){
         this.speed = 0;
         this.orientation = 0;
@@ -78,7 +76,7 @@ class MyBird extends CGFobject {
         var x = this.position[0] + 1.5 * Math.sin(this.degToRad(this.orientation));
         var z = this.position[2] + 1.5 * Math.cos(this.degToRad(this.orientation));
 
-        this.stick.setPos(x, z, this.orientation%360);
+        this.stick.setPos(null, null, this.orientation%360);
 
         var temp = this.stick;
         this.stick = null;
@@ -249,7 +247,7 @@ class MyBird extends CGFobject {
             this.scene.pushMatrix();
             this.scene.translate(this.position[0], this.position[1] + oscilacao, this.position[2]);
             this.scene.rotate(this.degToRad(this.orientation % 360),0,1,0);
-            this.scene.translate(-0.75, 0.8, 1.8);
+            this.scene.translate(-0.5, 0.8, 1.8);
             this.scene.rotate(Math.PI/2, 0, 1, 0);
             this.stick.display();
             this.scene.popMatrix();
