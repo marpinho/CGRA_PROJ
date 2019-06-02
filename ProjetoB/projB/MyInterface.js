@@ -24,6 +24,8 @@ class MyInterface extends CGFinterface {
         this.gui.add(this.scene, 'birdScale', 0.5, 3).name('Bird Scale');
         this.gui.add(this.scene, 'birdAcceleration', 0.1, 3).name('Bird Acceleration');
 
+        this.gui.add(this.scene, 'cameraDistance', 0, 50).name("Camera Distance");
+
         this.initKeys();
 
         return true;
