@@ -28,6 +28,7 @@ class MyScene extends CGFscene {
         this.grabState = -1; //-1-> normal  else-> index of branch being held
         this.birdScale = 0.5;
         this.birdAcceleration = 2;
+        this.displayLightning = false;
 
         this.axiom = "X"; // "X"; //
         this.ruleF = "FF"; // "FF"; //
@@ -110,6 +111,7 @@ class MyScene extends CGFscene {
     }
     update(t){
         this.checkKeys(t);
+        this.lightning.update(t);
     }
 
     goDown(){
@@ -174,7 +176,7 @@ class MyScene extends CGFscene {
         if (this.gui.isKeyPressed("KeyL")) {
             text+=" L ";
             keysPressed=true;     
-            this.lightning.display();
+            this.lightning.startAnimation(t);
         }
         if (this.gui.isKeyPressed("KeyR")) {
             text+=" R ";
@@ -249,13 +251,15 @@ class MyScene extends CGFscene {
 
     
         // LIGHTNING
-        //this.pushMatrix();
-        //this.translate(-10,10,-9);
-        //this.rotate(0.2 *Math.PI, 0, 1, 1);
-        //this.rotate(Math.PI, 0, 0, 1);
-        //this.lightning.display();
-        //this.popMatrix();
-
+        if (this.displayLightning) {
+          this.pushMatrix();
+          this.translate(-10,15,-9);
+          this.rotate(0.2 *Math.PI, 0, 1, 1);
+          this.rotate(Math.PI, 0, 0, 1);
+          this.lightning.display();
+          this.popMatrix();
+        }
+        
         //TERRAIN
         this.pushMatrix();
         this.terrain.display();
