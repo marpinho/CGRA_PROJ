@@ -7,6 +7,7 @@ serialInclude(['../lib/CGF.js','MyScene.js', 'MyInterface.js', 'Plane.js', 'MyCu
 'MyTriangle.js', 'MyNest.js', 'MyTreeBranch.js', 'MyCylinder.js', 'MyTerrain.js', 
 'MyRectangle.js', 'MyLSystem.js', 'MyLSPlant.js', 'MyLeaf.js',
  'MyBranch.js', 'MyParallelogram.js', 'MyLightning.js',
+ 'MyVoxelHill.js',
 
 
 main=function()

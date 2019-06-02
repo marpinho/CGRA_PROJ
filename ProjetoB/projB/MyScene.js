@@ -28,6 +28,7 @@ class MyScene extends CGFscene {
         this.grabState = -1; //-1-> normal  else-> index of branch being held
         this.birdScale = 1;
         this.birdAcceleration = 2;
+        this.displayLightning = false;
 
         this.axiom = "X"; // "X"; //
         this.ruleF = "FF"; // "FF"; //
@@ -112,6 +113,7 @@ class MyScene extends CGFscene {
     }
     update(t){
         this.checkKeys(t);
+        this.lightning.update(t);
     }
 
     moveCamera(){
@@ -196,7 +198,7 @@ class MyScene extends CGFscene {
         if (this.gui.isKeyPressed("KeyL")) {
             text+=" L ";
             keysPressed=true;     
-            this.lightning.display();
+            this.lightning.startAnimation(t);
         }
         if (this.gui.isKeyPressed("KeyR")) {
             text+=" R ";
@@ -231,9 +233,7 @@ class MyScene extends CGFscene {
             this.moveCamera();
         }
 
-
         // ---- BEGIN Primitive drawing section
-
         this.pushMatrix();
         this.scale(this.scaleFactor,this.scaleFactor,this.scaleFactor);
 
@@ -243,8 +243,8 @@ class MyScene extends CGFscene {
         this.scale(0.4,0.4,0.4);
         for(var i = 0; i<4; i++){
             this.pushMatrix();
-
             this.translate(i*6,0,0);
+
             this.pushMatrix();
             this.rotate(-0.3*i*Math.PI, 0, 1, 0);
             this.LSPlant.display();
@@ -260,8 +260,8 @@ class MyScene extends CGFscene {
             this.popMatrix();
         }
         this.popMatrix();
-
         //*******************************
+
         //Geral scale
         this.pushMatrix();
         this.scale(0.4, 0.4, 0.4);
@@ -286,7 +286,6 @@ class MyScene extends CGFscene {
                 this.popMatrix();
             }
         }
-
         //geral scale
         this.popMatrix();
         //****************************
@@ -316,6 +315,17 @@ class MyScene extends CGFscene {
         this.pushMatrix();
         this.skybox.display();
         this.popMatrix();
+
+        // LIGHTNING
+        if (this.displayLightning) {
+            this.pushMatrix();
+            this.scale(2,2,2);
+            this.translate(-5,8,-5);
+            this.rotate(0.2 *Math.PI, 0, 1, 1);
+            this.rotate(Math.PI, 0, 0, 1);
+            this.lightning.display();
+            this.popMatrix();
+        }
 
         this.popMatrix();
 

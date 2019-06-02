@@ -20,6 +20,9 @@ class MyBird extends CGFobject {
         this.beak = new MyPyramid(this.scene, this.h, 3);
         this.wing = new MyQuad(this.scene);
         this.wingTip = new MyTriangle(this.scene);
+        this.crista = new MyVoxelHill(this.scene,2);
+        this.cauda = new MyVoxelHill(this.scene,3);
+
         this.stick;
 
         this.position = [0, 3, 0];
@@ -31,13 +34,27 @@ class MyBird extends CGFobject {
         //Textures 
         this.penasTex = new CGFtexture(this.scene, 'images/penas6.jpg'); 
         this.penasMaterial = new CGFappearance(this.scene); 
+        this.penasMaterial.setAmbient(0.1, 0.1, 0.1, 1);
+        this.penasMaterial.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.penasMaterial.setSpecular(0.1, 0.1, 0.1, 1);
+        this.penasMaterial.setShininess(10.0);
         this.penasMaterial.setTexture(this.penasTex); 
        
         this.bicoTex = new CGFtexture(this.scene, 'images/bico1.jpg');
         this.bicoMaterial = new CGFappearance(this.scene); 
+        this.bicoMaterial.setAmbient(0.1, 0.1, 0.1, 1);
+        this.bicoMaterial.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.bicoMaterial.setSpecular(0.1, 0.1, 0.1, 1);
+        this.bicoMaterial.setShininess(10.0);
+        this.bicoMaterial = new CGFappearance(this.scene); 
         this.bicoMaterial.setTexture(this.bicoTex); 
         
-        this.olhoTex = new CGFtexture(this.scene, 'images/olho1.jpg'); 
+        this.olhoTex = new CGFtexture(this.scene, 'images/olho2.jpg'); 
+        this.olhoMaterial = new CGFappearance(this.scene); 
+        this.olhoMaterial.setAmbient(0.1, 0.1, 0.1, 1);
+        this.olhoMaterial.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.olhoMaterial.setSpecular(0.1, 0.1, 0.1, 1);
+        this.olhoMaterial.setShininess(10.0);
         this.olhoMaterial = new CGFappearance(this.scene); 
         this.olhoMaterial.setTexture(this.olhoTex);
 
@@ -140,6 +157,26 @@ class MyBird extends CGFobject {
         this.square.display();
         this.scene.popMatrix();
 
+        //cauda
+        this.penasMaterial.apply();
+        this.scene.pushMatrix();
+        this.scene.translate(this.position[0], this.position[1] + oscilacao, this.position[2]);
+        this.scene.rotate(this.degToRad(this.orientation % 360),0,1,0);
+        this.scene.translate(0,0,-1);
+        this.scene.rotate(Math.PI*-0.5,1,0,0);
+        this.scene.scale(0.3,0.3,0.3);
+        this.cauda.display();
+        this.scene.popMatrix();
+
+        //crista
+        this.scene.pushMatrix();
+        this.scene.translate(this.position[0], this.position[1] + oscilacao, this.position[2]);
+        this.scene.rotate(this.degToRad(this.orientation % 360),0,1,0);
+        this.scene.translate(0,1.5,1);
+        this.scene.scale(0.2,0.2,0.2);
+        this.crista.display();
+        this.scene.popMatrix();
+
         //cabeca
         this.scene.pushMatrix();
         this.scene.translate(this.position[0], this.position[1] + oscilacao, this.position[2]);
@@ -167,7 +204,7 @@ class MyBird extends CGFobject {
         this.scene.translate(this.position[0], this.position[1] + oscilacao, this.position[2]);
         this.scene.rotate(this.degToRad(this.orientation % 360),0,1,0);
         this.scene.translate(-0.2, 1.15, 1.5);
-        this.scene.scale(0.1, 0.1, 0.1);
+        this.scene.scale(0.3, 0.3, 0.1);
         this.square.display();
         this.scene.popMatrix();
 
@@ -176,7 +213,7 @@ class MyBird extends CGFobject {
         this.scene.translate(this.position[0], this.position[1] + oscilacao, this.position[2]);
         this.scene.rotate(this.degToRad(this.orientation % 360),0,1,0);
         this.scene.translate(0.2, 1.15, 1.5);
-        this.scene.scale(0.1, 0.1, 0.1);
+        this.scene.scale(0.3, 0.3, 0.1);
         this.square.display();
         this.scene.popMatrix();
         
