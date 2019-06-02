@@ -117,7 +117,7 @@ class MyScene extends CGFscene {
     }
 
     grabDrop(x, z){
-        var margem = 6;
+        var margem = 3;
 
         if(this.grabState === -1) {
             for(var i = 0; i < this.nBranches; i++){
