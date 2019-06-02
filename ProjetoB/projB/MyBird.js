@@ -163,6 +163,7 @@ class MyBird extends CGFobject {
         this.penasMaterial.apply();
         this.scene.pushMatrix();
         this.scene.translate(this.position[0], this.position[1] + oscilacao, this.position[2]);
+        this.scene.rotate(this.degToRad(this.orientation % 360),0,1,0);
         this.scene.translate(0,0,-1);
         this.scene.rotate(Math.PI*-0.5,1,0,0);
         this.scene.scale(0.3,0.3,0.3);
@@ -172,6 +173,7 @@ class MyBird extends CGFobject {
         //crista
         this.scene.pushMatrix();
         this.scene.translate(this.position[0], this.position[1] + oscilacao, this.position[2]);
+        this.scene.rotate(this.degToRad(this.orientation % 360),0,1,0);
         this.scene.translate(0,1.5,1);
         this.scene.scale(0.2,0.2,0.2);
         this.crista.display();
